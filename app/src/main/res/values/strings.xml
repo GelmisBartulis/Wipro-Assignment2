@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Assignment1</string>
+    <string name="details">Register</string>
+    <string name="fname">First name</string>
+    <string name="lname">Last name</string>
+    <string name="email">email@example.com</string>
+    <string name="dob">Date of Birth</string>
+    <string name="radio_male">Male</string>
+    <string name="radio_female">Female</string>
+    <string name="radio_other">Other</string>
+    <string name="submit_text">Register</string>
+</resources>

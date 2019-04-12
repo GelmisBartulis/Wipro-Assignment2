@@ -9,4 +9,22 @@
     <string name="radio_female">Female</string>
     <string name="radio_other">Other</string>
     <string name="submit_text">Register</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="other">Other</string>
+    <string name="company_logo">Company logo</string>
+    <string name="summary">User input summary</string>
+    <string name="next">Next</string>
+    <string name="tip">This part is developed using SharedPreferences, click Next to see similar activity with fragments</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="regsiter_below">Regsiter below</string>
+    <string name="tip2">This part is developed using Fragments and Local DB, click QUIT to finish preview</string>
+    <string name="sign_in">Sign in</string>
+    <string name="register">Register</string>
+    <string name="welcome">Welcome</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="todo">TODO</string>
 </resources>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back3"
+    android:background="#f9f9f9"
     android:clickable="true"
     android:focusable="true"
     android:focusableInTouchMode="true"
@@ -25,7 +25,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/logo_color" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -51,7 +51,7 @@
             android:ems="10"
             android:hint="@string/fname"
             android:inputType="textPersonName"
-            android:textColor="#fff"
+            android:textColor="#222"
             android:textColorHint="#888888"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -72,7 +72,7 @@
             android:ems="10"
             android:hint="@string/lname"
             android:inputType="textPersonName"
-            android:textColor="#fff"
+            android:textColor="#222"
             android:textColorHint="#888888"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -92,7 +92,7 @@
             android:ems="10"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
-            android:textColor="#fff"
+            android:textColor="#222"
             android:textColorHint="#888888"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -112,7 +112,7 @@
             android:ems="10"
             android:hint="Enter password"
             android:inputType="textPassword"
-            android:textColor="#fff"
+            android:textColor="#222"
             android:textColorHint="#888888"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -126,11 +126,12 @@
             android:layout_marginLeft="97dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="101dp"
+            android:layout_marginRight="101dp"
             android:autofillHints=""
             android:ems="10"
             android:hint="Confirm password"
             android:inputType="textPassword"
-            android:textColor="#fff"
+            android:textColor="#222"
             android:textColorHint="#888888"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -150,7 +151,7 @@
             android:ems="10"
             android:hint="@string/dob"
             android:textAlignment="center"
-            android:textColor="#fff"
+            android:textColor="@android:color/white"
             android:textColorHint="#bfbfbf"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -185,7 +186,7 @@
                 android:layout_weight="1"
                 android:text="@string/male"
                 android:textAlignment="center"
-                android:textColor="#fff"
+                android:textColor="#222"
                 android:textSize="18sp" />
 
             <RadioButton
@@ -196,7 +197,7 @@
                 android:layout_weight="1"
                 android:text="@string/female"
                 android:textAlignment="center"
-                android:textColor="#fff"
+                android:textColor="#222"
                 android:textSize="18sp" />
 
             <RadioButton
@@ -207,7 +208,7 @@
                 android:layout_weight="1"
                 android:text="@string/other"
                 android:textAlignment="center"
-                android:textColor="#fff"
+                android:textColor="#222"
                 android:textSize="18sp" />
         </RadioGroup>
     </LinearLayout>

@@ -18,6 +18,8 @@ package com.example.assignment1;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -37,6 +39,9 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import androidx.fragment.app.Fragment;
 
 public class RegFragment extends Fragment implements View.OnClickListener{
@@ -108,52 +113,31 @@ public class RegFragment extends Fragment implements View.OnClickListener{
         submit.setOnClickListener(new View.OnClickListener() {// When the submit button is hit these actions follow
             @Override
             public void onClick(View v) {// Retrieving the information that has been added
-                 sName = fname.getText().toString();
-                 sLame = lname.getText().toString();
-                 sDob = dob.getText().toString();
-                 sEmail = email.getText().toString();
-                 sPass1 = pass1.getText().toString();
-                 sPass2 = pass2.getText().toString();
-                 if(!sPass1.equals(sPass2)) {
-                     Toast toast = Toast.makeText(context, "Passwords do not match", Toast.LENGTH_LONG);
-                     toast.setGravity(Gravity.BOTTOM, 0, 225);
-                     LinearLayout toastContentView = (LinearLayout) toast.getView();
-                     ImageView imageView = new ImageView(context);
-                     imageView.setImageResource(R.drawable.deny);
-                     imageView.setAdjustViewBounds(true);
-                     imageView.setMaxHeight(150);
-                     imageView.setMaxWidth(150);
-                     toastContentView.addView(imageView, 0);
-                     toast.show();
-                 }
-                if(sName.isEmpty() || sLame.isEmpty() || sDob.isEmpty() || sEmail.isEmpty() || sPass2.isEmpty() || sPass1.isEmpty()) {// Validating all the inputs
-                    Toast toast = Toast.makeText(context, "Incorrect details", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.BOTTOM, 0, 225);
-                    LinearLayout toastContentView = (LinearLayout) toast.getView();
-                    ImageView imageView = new ImageView(context);
-                    imageView.setImageResource(R.drawable.deny);
-                    imageView.setAdjustViewBounds(true);
-                    imageView.setMaxHeight(150);
-                    imageView.setMaxWidth(150);
-                    toastContentView.addView(imageView, 0);
-                    toast.show();
-                } else { // Notifying the user that the details have been accepted
+                String sName  = fname.getText().toString();
+                String sLame  = lname.getText().toString();
+                String sDob   = dob.getText().toString();
+                String sEmail = email.getText().toString();
+                String sPass1 = pass1.getText().toString();
+                String sPass2 = pass2.getText().toString();
+
+                if(sName.isEmpty() || sLame.isEmpty() || sDob.isEmpty() || sEmail.isEmpty() || sPass1.isEmpty() || sPass2.isEmpty()) { // Validating all the inputs
+                    Log.i("Call", "Incorrect");
+                    showIncorrectDetails("Some fields are missing");
+                } else if(sPass1.equals(sPass2) && checkPassword(sPass1) && checkPassword(sPass2) && checkString(sName) && checkString(sLame) && checkEmail(sEmail) && !sDob.isEmpty()) {
+                    Log.i("Call", "Correct");
                     addUser(myView);// by using a custom toast with an image
-                    Toast toast = Toast.makeText(context, "Details have been accepted", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.BOTTOM, 0, 225);
-                    LinearLayout toastContentView = (LinearLayout) toast.getView();
-                    ImageView imageView = new ImageView(context);
-                    imageView.setImageResource(R.drawable.accept);
-                    imageView.setAdjustViewBounds(true);
-                    imageView.setMaxHeight(150);
-                    imageView.setMaxWidth(150);
-                    toastContentView.addView(imageView, 0);
-                    toast.show();
+                    showCorrectDetails(sName, sLame, sDob, sEmail, gender, sPass1);
                     SummaryFragment nextFrag= new SummaryFragment();
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container, nextFrag, "findThisFragment")
                             .addToBackStack(null)
                             .commit();
+                } else if(!sPass1.equals(sPass2)){
+                    Log.i("Call", "Pass not match");
+                    showIncorrectDetails("The passwords do not match");
+                } else {
+                    Log.i("Call", "Pass not match");
+                    showIncorrectDetails("There was a problem");
                 }
             }
         });
@@ -177,6 +161,61 @@ public class RegFragment extends Fragment implements View.OnClickListener{
         });
         return myView; // Inflate the layout for this fragment
     }
+
+
+    public void showIncorrectDetails(String message){
+        Toast toast = Toast.makeText(context,message, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.BOTTOM, 0, 225);
+        LinearLayout toastContentView = (LinearLayout) toast.getView();
+        ImageView imageView = new ImageView(context);
+        imageView.setImageResource(R.drawable.deny);
+        imageView.setAdjustViewBounds(true);
+        imageView.setMaxHeight(150);
+        imageView.setMaxWidth(150);
+        toastContentView.addView(imageView, 0);
+        toast.show();
+    }
+    public void showCorrectDetails(String sName, String sLame, String sDob, String sEmail, String gender, String sPass1){
+        SharedPreferences.Editor editor = context.getSharedPreferences("regDetails", Context.MODE_PRIVATE).edit();// The data will be stored as this is only volatile storage type
+        editor.putString("fname", sName);
+        editor.putString("lname", sLame);
+        editor.putString("dob", sDob);
+        editor.putString("email", sEmail);
+        editor.putString("gender", gender);
+        editor.putString("pass1", sPass1);
+        editor.apply();
+        Toast toast = Toast.makeText(context, "Details have been accepted", Toast.LENGTH_SHORT);// by using a custom toast with an image
+        toast.setGravity(Gravity.BOTTOM, 0, 225);
+        LinearLayout toastContentView = (LinearLayout) toast.getView();
+        ImageView imageView = new ImageView(context);
+        imageView.setImageResource(R.drawable.accept);
+        imageView.setAdjustViewBounds(true);
+        imageView.setMaxHeight(150);
+        imageView.setMaxWidth(150);
+        toastContentView.addView(imageView, 0);
+        toast.show();
+        Intent intentSummary = new Intent(context, Summary.class); // Initialising an intent for showing the summary page with the results
+        startActivity(intentSummary);
+    }
+
+
+    public boolean checkString(String str) {
+        if (str == null) {
+            return false;
+        } else return str.matches("[A-Za-z]");
+    }
+    public boolean checkPassword(String str) {
+        if (str == null) {
+            return false;
+        } else return str.matches("[/[0-9]/,/[a-z]/,/[A-Z]/,/[!%&*\\s]/, /^.{8,20}$/]");
+    }
+    public static final Pattern VALID_EMAIL_PATTERN = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    public static boolean checkEmail(String str) {
+        Matcher matcher = VALID_EMAIL_PATTERN.matcher(str);
+        return matcher.find();
+    }
+
+
     public void addUser(View view) {
         MyDBHandler dbHandler = new MyDBHandler(myView.getContext(), null, null, 2);
         User user = new User(1, sName, sLame, sEmail, sDob, gender, sPass1);
@@ -200,10 +239,6 @@ public class RegFragment extends Fragment implements View.OnClickListener{
         } else if (mCurrentPosition != -1) {// Set article based on saved instance state defined during onCreateView
             updateArticleView(mCurrentPosition);
         }
-    }
-    public boolean isNoNumberAtBeginning(String s){
-        Log.i("Chosen One", " " + s);
-        return  s.matches(".*[a-zA-Z]+.*");
     }
     public void updateArticleView(int position) { mCurrentPosition = position; }
     @Override

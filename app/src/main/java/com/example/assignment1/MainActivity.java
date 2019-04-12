@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 if(sName.isEmpty() || sLame.isEmpty() || sDob.isEmpty() || sEmail.isEmpty() || sPass1.isEmpty() || sPass2.isEmpty()) { // Validating all the inputs
                     Log.i("Call", "Incorrect");
                     showIncorrectDetails("Some fields are missing");
-                } else if(sPass1.equals(sPass2) && checkString(sName) && checkString(sLame) && checkEmail(sEmail) && !sDob.isEmpty()) {
+                } else if(sPass1.equals(sPass2) && checkPassword(sPass1) && checkPassword(sPass2) && checkString(sName) && checkString(sLame) && checkEmail(sEmail) && !sDob.isEmpty()) {
                     Log.i("Call", "Correct");
                     showCorrectDetails(sName, sLame, sDob, sEmail, gender, sPass1);
                 } else if(!sPass1.equals(sPass2)){
@@ -177,6 +177,11 @@ public class MainActivity extends AppCompatActivity {
         if (str == null) {
             return false;
         } else return str.matches("[A-Za-z]");
+    }
+    public boolean checkPassword(String str) {
+        if (str == null) {
+            return false;
+        } else return str.matches("[/[0-9]/,/[a-z]/,/[A-Z]/,/[!%&*\\s]/, /^.{8,20}$/]");
     }
     public static final Pattern VALID_EMAIL_PATTERN = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     public static boolean checkEmail(String str) {
